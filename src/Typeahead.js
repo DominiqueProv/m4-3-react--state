@@ -1,10 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { clamp } from '../utils';
-
 import Button from './Button';
-import Suggestion from './Suggestion';
 
 const Typeahead = ({
     suggestions,
@@ -50,9 +47,9 @@ const Typeahead = ({
                     onFocus={() => {
                         setIsVisible(true);
                     }}
-                    // onBlur={() => {
-                    //   setIsVisible(false);
-                    // }}
+                    onBlur={() => {
+                      setIsVisible(false);
+                    }}
                     onKeyDown={ev => {
                         switch (ev.key) {
                             // If the user presses the "enter" key, take the currently

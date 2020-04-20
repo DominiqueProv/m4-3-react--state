@@ -12,7 +12,7 @@ State is _dynamic data_. Things that change.
 
 ```jsx live=true
 const Counter = () => {
-  const [count, setCount] = React.useState(0);
+  const [count, setCount] = React.useState(0); // 0 is initial value
 
   return (
     <>
@@ -219,16 +219,19 @@ What happens when you want to share state between components?
 
 ```jsx
 const App = () => {
+      const [searchTerm, setSearchTerm] = React.useState('');
+
   return (
     <>
-      <SearchInput />
+      <SearchInput 
+            serchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}/>
       <SearchResults />
     </>
   )
 }
 
-const SearchInput = () => {
-  const [searchTerm, setSearchTerm] = React.useState('');
+const SearchInput = ({searchTerm, setSerchTerm}) => {
 
   return (
     <input
@@ -241,8 +244,8 @@ const SearchInput = () => {
   );
 }
 
-const SearchResults = () => {
-  // ??
+const SearchResults = ({searchTerm}) => {
+  // set usestate in the parent "App" to pass it down to the child as props to use 
 }
 ```
 
@@ -259,8 +262,8 @@ Lift state up in the following examples
 ---
 
 ```jsx live=true
-const Counter = () => {
-  const [count, setCount] = React.useState(0);
+const Counter = ({count, setCount}) => {
+  
 
   return (
     <>
@@ -272,11 +275,14 @@ const Counter = () => {
 };
 
 const App = () => {
+    const [count, setCount] = React.useState(0);
   return (
     <>
-      The current count is: ???
+      The current count is: {count}
 
-      <Counter />
+      <Counter setCount = {setCount}
+            count={count}
+      />
     </>
   )
 }
@@ -287,8 +293,7 @@ render(<App />)
 ---
 
 ```jsx live=true
-const FavouriteFood = () => {
-  const [food, setFood] = React.useState('');
+const FavouriteFood = ({setFood}) => {
 
   return (
     <>
@@ -297,7 +302,6 @@ const FavouriteFood = () => {
           type="radio"
           name="food"
           value="pizza"
-          checked={food === 'pizza'}
           onChange={() => setFood('pizza')}
         />
         Pizza
@@ -307,7 +311,6 @@ const FavouriteFood = () => {
           type="radio"
           name="food"
           value="broccoli"
-          checked={food === 'broccoli'}
           onChange={() => setFood('broccoli')}
         />
         Broccoli
@@ -317,11 +320,15 @@ const FavouriteFood = () => {
 };
 
 const App = () => {
+    const [food, setFood] = React.useState('');
+
   return (
     <>
-      My favourite food is: ???
+       My favourite food is: {food}
       <br /><br />
-      <FavouriteFood />
+      <FavouriteFood setFood ={SetFood}
+                     food={food}
+      />
     </>
   )
 }
